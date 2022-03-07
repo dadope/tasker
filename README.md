@@ -1,10 +1,11 @@
 # Tasker
 
 A Dart-written Android app to make taking notes easy and straight forward
-
-<img height="500" src=".\docs\home_screen.png" width=""/>
-<img height="500" src=".\docs\search_screen.png" width=""/>
-<img height="500" src=".\docs\edit_screen.png" width=""/>
+<p align="middle">
+  <img src=".\docs\home_screen.png" width="32%"/>
+    <img src=".\docs\search_screen.png" width="32%"/>
+    <img src=".\docs\edit_screen.png" width="32%"/>
+</p>
 
 # Features
 + blazingly fast

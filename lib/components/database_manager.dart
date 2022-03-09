@@ -1,58 +1,44 @@
 import 'package:hive/hive.dart';
-import 'package:tasker/models/note.dart';
+import 'package:tasker/models/item.dart';
 
-// TODO: only write to db on exit and handle most operations in memory
+import 'package:tasker/models/note.dart';
+import 'package:tasker/models/task.dart';
+
+// TODO enable sorting my creation date
 class DatabaseManager {
-  static const String boxName = "notesDb";
-  static const String notesArray = "notesArray";
+  static const String boxName = "itemsDb";
 
   Box hiveBox = Hive.box(boxName);
 
-  DatabaseManager() {
-    if (!hiveBox.containsKey(notesArray)) {
-      hiveBox.put(notesArray, List<Note>.empty());
-    }
-  }
+  List<Item> getAllItems() => hiveBox.values.whereType<Item>().toList();
+  List<Task> getAllTasks() => hiveBox.values.whereType<Task>().toList();
+  List<Note> getAllNotes() => hiveBox.values.whereType<Note>().toList();
 
-  //TODO: save notes in an array as to not always call getAllNotes
+  List<Note> searchForNote(String query, {bool matchCase = false}) =>
+      getAllNotes().where(
+              (element) => matchCase?
+          element.title.contains(query) || element.content.contains(query):
+          element.title.toLowerCase().contains(query.toLowerCase()) ||
+              element.content.toLowerCase().contains(query.toLowerCase())
+      ).toList();
 
-  void removeNote(int indexToRemove) async {
-    List<Note> notes = getAllNotes();
-    notes.removeAt(indexToRemove);
-    await hiveBox.put(notesArray, notes);
-  }
+  List<Task> searchForTask(String query, {bool matchCase = false}) =>
+      getAllTasks().where(
+              (element) => matchCase?
+          element.title.contains(query) || element.content.contains(query):
+          element.title.toLowerCase().contains(query.toLowerCase()) ||
+              element.content.toLowerCase().contains(query.toLowerCase())
+      ).toList();
 
-  void addNote(Note note) async {
-    await hiveBox.put(notesArray, [...getAllNotes(), note]);  }
+  List<Item> searchAllItems(String query, {bool matchCase = false}) =>
+      [
+        ...searchForTask(query, matchCase: matchCase),
+        ...searchForNote(query, matchCase: matchCase)
+      ];
 
-  void editNote(int indexToEdit, Note noteToEdit) async {
-    List<Note> notes = getAllNotes();
-    notes[indexToEdit] = noteToEdit;
-    await hiveBox.put(notesArray, notes);
-  }
+  Future<void> editItem(Item item) async => await item.save();
 
-  List<Note> searchNote(String query, [bool matchCase = false]){
-    List<Note> notes = hiveBox.get(notesArray).cast<Note>();
-    notes = notes.where(
-            (element) => matchCase?
-            element.title.contains(query) || element.content.contains(query):
-                element.title.toLowerCase().contains(query.toLowerCase()) ||
-                element.content.toLowerCase().contains(query.toLowerCase())
-    ).toList();
+  Future<void> removeItem(Item item) async => await item.delete();
 
-    // TODO enable sorting my creation date
-    // sorts all notes by creationDate
-    //notes.sort((a,b)=> a.creationDate.compareTo(b.creationDate));
-
-    return notes;
-  }
-
-  List<Note> getAllNotes() {
-    List<Note> notes = hiveBox.get(notesArray).cast<Note>();
-
-    // sorts all notes by creationDate
-    //notes.sort((a,b)=> a.creationDate.compareTo(b.creationDate));
-
-    return notes;
-  }
+  Future<int> addItem(Item item) async => await hiveBox.add(item);
 }

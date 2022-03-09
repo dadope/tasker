@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasker/models/item.dart';
 
 import 'package:tasker/components/fab/home_view_fab.dart';
 import 'package:tasker/components/appbars/default_appbar.dart';
 import 'package:tasker/components/appbars/delete_note_appbar.dart';
 import 'package:tasker/components/list_views/note_selection_list_view.dart';
-import 'package:tasker/bloc/note_manager/note_manager_bloc.dart';
+import 'package:tasker/bloc/item_manager/item_manager_bloc.dart';
 
 class HomeView extends StatefulWidget {
   static const String routeName = "/";
@@ -19,51 +20,49 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  List<int> selectedIndices = List.empty(growable: true);
+  List<Item> selectedItems = List.empty(growable: true);
 
   @override
   Widget build(BuildContext context) {
-    final NoteManagerBloc dataBloc = BlocProvider.of<NoteManagerBloc>(context);
+    final ItemManagerBloc dataBloc = BlocProvider.of<ItemManagerBloc>(context);
 
     // loading notes
-    dataBloc.add(NoteManagerLoad());
+    dataBloc.add(ItemManagerLoad());
 
-    return BlocBuilder<NoteManagerBloc, NoteManagerState>(
+    return BlocBuilder<ItemManagerBloc, ItemManagerState>(
       builder:(context, state) => Scaffold(
-        appBar: selectedIndices.isEmpty?
+        appBar: selectedItems.isEmpty?
           const DefaultAppBar() as PreferredSizeWidget :
           DeleteNoteAppBar(
             cancelDeletion: (){
               setState(() {
-                selectedIndices = List.empty(growable: true);
+                selectedItems = List.empty(growable: true);
               });
             },
-            deleteNote: () {
-              // to prevent indices from shifting due to deletion of greater indices
-              selectedIndices.sort((a, b) => b.compareTo(a));
-              for (int elementIndex in selectedIndices) {
-                dataBloc.add(NoteManagerRemoveNote(elementIndex));
+            deleteItem: () {
+              for (Item item in selectedItems) {
+                dataBloc.add(ItemManagerRemoveItem(item));
               }
               setState(() {
-                selectedIndices = List.empty(growable: true);
+                selectedItems = List.empty(growable: true);
               });
             },
           ),
 
         body: Builder(
           builder: (context) {
-            if (state is NoteManagerLoading) {
+            if (state is ItemManagerLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            else if (state is NoteManagerLoaded) {
+            else if (state is ItemManagerLoaded) {
               // no notes found or none exist
-              if (state.notes.isEmpty){
+              if (state.items.isEmpty){
                 return Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Text(
-                      state is NoteManagerSearched?
+                      state is ItemManagerSearched?
                         "No matching notes": "Could not find any saved notes",
                       style: const TextStyle(
                           fontSize: 20,
@@ -74,13 +73,13 @@ class _HomeViewState extends State<HomeView> {
                 );
               }
               return NoteSelectionListView(
-                  state.notes,
-                  selectedIndices,
-                  onLongPress: (int index){
+                  state.items,
+                  selectedItems,
+                  onLongPress: (Item selectedItem){
                     setState(() {
-                      selectedIndices.contains(index)?
-                        selectedIndices.remove(index):
-                        selectedIndices.add(index);
+                      selectedItems.contains(selectedItem)?
+                        selectedItems.remove(selectedItem):
+                        selectedItems.add(selectedItem);
                     });
               });
             }
@@ -93,8 +92,8 @@ class _HomeViewState extends State<HomeView> {
         ),
         floatingActionButton: Builder(
           builder: (context) {
-            return state is NoteManagerLoaded?
-              HomeViewFab(state.notes.length):
+            return state is ItemManagerLoaded?
+              const HomeViewFab():
               const SizedBox.shrink();
           }
         ),

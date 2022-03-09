@@ -1,34 +1,37 @@
 import 'package:hive/hive.dart';
 
-import 'package:tasker/models/note.dart';
+import 'item.dart';
 
 part 'task.g.dart';
 
 //TODO add support for multi-day tasks
-class Task extends Note{
-@HiveType(typeId: 0)
+@HiveType(typeId: 2)
+class Task extends Item{
 
   @HiveField(0)
-  String title;
-
-  @HiveField(1)
-  String content;
-
-  @HiveField(2)
   DateTime creationDate;
 
+  @HiveField(1)
+  String title;
+
+  @HiveField(2)
+  String content;
+
   @HiveField(3)
+  bool done;
+
+  @HiveField(4)
   DateTime dueDate;
 
   @override
   String toString() {
     return "\n"
-        "title: $title | content: $content\n"
+        "done: $done | title: $title | content: $content\n"
         "creationDate: $creationDate | dueDate: $dueDate\n";
   }
 
-  Task(this.title, {this.content = "", DateTime? creationDate, DateTime? dueDate}):
+  Task({this.title = "", this.content = "", this.done = false, DateTime? creationDate, DateTime? dueDate}):
         creationDate = creationDate?? DateTime.now(),
         dueDate = dueDate?? DateTime.now(),
-        super(title, content: content, creationDate: creationDate);
+        super(title: title, creationDate: creationDate);
 }

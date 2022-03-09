@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:tasker/components/textfield/default_search_bar.dart';
 
 class DeleteNoteAppBar extends StatelessWidget with PreferredSizeWidget{
-  final void Function() deleteNote;
-  final void Function() cancelDeletion;
+  final Function() deleteItem;
+  final Function() cancelDeletion;
 
-  const DeleteNoteAppBar({required this.deleteNote, required this.cancelDeletion, Key? key}) : super(key: key);
+  const DeleteNoteAppBar({required this.deleteItem, required this.cancelDeletion, Key? key}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -21,7 +22,7 @@ class DeleteNoteAppBar extends StatelessWidget with PreferredSizeWidget{
       actions: [
         IconButton(
           icon: const Icon(Icons.delete_forever),
-          onPressed: deleteNote,
+          onPressed: deleteItem,
         )
       ],
     );

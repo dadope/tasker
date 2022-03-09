@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:tasker/models/note.dart';
 import 'package:tasker/views/edit_note_view.dart';
 
 class NoteElement extends StatelessWidget {
-  final int index;
   final Note note;
   final bool selected;
   final bool selectionActive;
-  final Function(int index) onLongPress;
+  final Function(Note selectedNote) onLongPress;
 
-  const NoteElement(this.index, this.note, this.onLongPress, this.selectionActive, this.selected, {Key? key}) : super(key: key);
+  const NoteElement(this.note, this.onLongPress, this.selectionActive, this.selected, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,10 @@ class NoteElement extends StatelessWidget {
         child: InkWell(
           onTap: (){
             selectionActive?
-              Navigator.pushNamed(context, EditNoteView.routeName, arguments: [index, note]):
-              onLongPress(index);
+              Navigator.pushNamed(context, EditNoteView.routeName, arguments: [note]):
+              onLongPress(note);
           },
-          onLongPress: () => onLongPress(index),
+          onLongPress: () => onLongPress(note),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -52,6 +52,8 @@ class NoteElement extends StatelessWidget {
                 note.content.isEmpty? const SizedBox.shrink():
                 Text(
                   note.content,
+                  maxLines: 4,
+                  overflow: TextOverflow.fade,
                   textAlign: TextAlign.left,
                 )
               ],

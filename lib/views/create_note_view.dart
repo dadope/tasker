@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tasker/models/note.dart';
-import 'package:tasker/bloc/note_manager/note_manager_bloc.dart';
-import 'package:tasker/components/appbars/add_and_edit_note_appbar.dart';
+import 'package:tasker/bloc/item_manager/item_manager_bloc.dart';
+import 'package:tasker/components/appbars/add_and_edit_item_appbar.dart';
 import 'package:tasker/components/textfield/title_input_field.dart';
 import 'package:tasker/components/textfield/content_input_field.dart';
 
@@ -12,37 +12,34 @@ class CreateNoteView extends StatelessWidget {
   static bool alreadySaved = false;
   static const String routeName = "/createNoteView";
 
-  final int listLen;
-
-  const CreateNoteView(this.listLen, {Key? key}) :super(key: key);
+  const CreateNoteView({Key? key}) :super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bool savedNote = false;
-    final NoteManagerBloc dataBloc = BlocProvider.of<NoteManagerBloc>(context);
+    Note noteToSave = Note();
+    bool alreadySaved = false;
+
+    final ItemManagerBloc dataBloc = BlocProvider.of<ItemManagerBloc>(context);
 
     TextEditingController titleController = TextEditingController();
     TextEditingController contentController = TextEditingController();
 
     void saveNote(_){
-      if (titleController.text.isEmpty && contentController.text.isEmpty) {
-        return;
-      }
+      noteToSave.title = titleController.text;
+      noteToSave.content = contentController.text;
 
-      Note noteToInsert = Note(titleController.text, content: contentController.text);
-
-      if (!savedNote){
-        savedNote = true;
-        dataBloc.add(NoteManagerAddNote(noteToInsert));
+      if (!alreadySaved){
+        alreadySaved = true;
+        dataBloc.add(ItemManagerAddItem(noteToSave));
       } else {
-        dataBloc.add(NoteManagerEditNote(listLen, noteToInsert));
+        dataBloc.add(ItemManagerEditItem(noteToSave));
       }
     }
 
     return Scaffold(
       body: Column(
         children: [
-          const AddAndEditNoteAppBar(),
+          const AddAndEditItemAppBar(),
           TitleInputField(titleController, saveNote),
           ContentInputField(contentController, saveNote)
         ],

@@ -5,14 +5,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:tasker/views/home_view.dart';
 import 'package:tasker/components/routes.dart';
-import 'package:tasker/bloc/note_manager/note_manager_bloc.dart';
+import 'package:tasker/bloc/item_manager/item_manager_bloc.dart';
 import 'package:tasker/components/database_manager.dart';
 
 import 'models/note.dart';
+import 'models/task.dart';
 
 void main() async {
   await Hive.initFlutter();
+  Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(NoteAdapter());
+
   await Hive.openBox(DatabaseManager.boxName);
 
   runApp(const MyApp());
@@ -25,8 +28,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NoteManagerBloc>(
-            create: (BuildContext context) => NoteManagerBloc()
+        BlocProvider<ItemManagerBloc>(
+            create: (BuildContext context) => ItemManagerBloc()
         )
       ],
       child: MaterialApp(

@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tasker/views/create_note_view.dart';
+import 'package:tasker/views/create_task_view.dart';
 
 import 'expandable_fab.dart';
 
 class HomeViewFab extends StatelessWidget {
-  final int listLen;
-
-  const HomeViewFab(this.listLen, {Key? key}) : super(key: key);
+  const HomeViewFab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +14,13 @@ class HomeViewFab extends StatelessWidget {
       children: [
         ActionButton(
           onPressed: () {
-            // TODO add events
+            Navigator.pushNamed(context, CreateTaskView.routeName);
           },
           icon: const Icon(Icons.calendar_today),
         ),
         ActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, CreateNoteView.routeName, arguments: [listLen]);
+            Navigator.pushNamed(context, CreateNoteView.routeName);
           },
           icon: const Icon(Icons.note_add),
         ),

@@ -19,7 +19,6 @@ class ContentInputField extends StatelessWidget {
           expands: true,
           maxLines: null,
           onChanged: saveNote,
-
           controller: contentController,
           keyboardType: TextInputType.multiline,
           decoration: const InputDecoration(

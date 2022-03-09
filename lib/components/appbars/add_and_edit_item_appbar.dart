@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AddAndEditNoteAppBar extends StatelessWidget {
-  const AddAndEditNoteAppBar({Key? key}) : super(key: key);
+class AddAndEditItemAppBar extends StatelessWidget {
+  const AddAndEditItemAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

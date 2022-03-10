@@ -50,6 +50,7 @@ class TaskElement extends StatelessWidget {
                         Text(
                           task.title,
                           textAlign: TextAlign.left,
+                          maxLines: 1,
                           style: const TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold

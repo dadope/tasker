@@ -7,13 +7,6 @@ part 'task.g.dart';
 //TODO add support for multi-day tasks
 @HiveType(typeId: 2)
 class Task extends Item{
-
-  @HiveField(0)
-  DateTime creationDate;
-
-  @HiveField(1)
-  String title;
-
   @HiveField(2)
   String content;
 
@@ -30,8 +23,7 @@ class Task extends Item{
         "creationDate: $creationDate | dueDate: $dueDate\n";
   }
 
-  Task({this.title = "", this.content = "", this.done = false, DateTime? creationDate, DateTime? dueDate}):
-        creationDate = creationDate?? DateTime.now(),
+  Task({title = "", this.content = "", this.done = false, DateTime? creationDate, DateTime? dueDate}):
         dueDate = dueDate?? DateTime.now(),
         super(title: title, creationDate: creationDate);
 }

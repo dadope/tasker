@@ -44,6 +44,7 @@ class NoteElement extends StatelessWidget {
                 Text(
                   note.title,
                   textAlign: TextAlign.left,
+                  maxLines: 1,
                   style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold

@@ -5,12 +5,6 @@ part 'note.g.dart';
 
 @HiveType(typeId: 1)
 class Note extends Item{
-  @HiveField(0)
-  DateTime creationDate;
-
-  @HiveField(1)
-  String title;
-
   @HiveField(2)
   String content;
 
@@ -21,6 +15,6 @@ class Note extends Item{
         "creationDate: $creationDate\n";
   }
 
-  Note({this.title = "", this.content = "", DateTime? creationDate}):
-        creationDate = creationDate?? DateTime.now();
+  Note({DateTime? creationDate, String title = "", this.content = ""}):
+        super(creationDate: creationDate, title: title);
 }

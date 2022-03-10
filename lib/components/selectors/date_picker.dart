@@ -48,14 +48,14 @@ class _DatePickerState extends State<DatePicker> {
       });
     }
 
-    return InkWell(
-      onTap: (){
-        _selectDateAndTime();
-      },
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: (){
+              _selectDateAndTime();
+            },
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.grey.shade400,
@@ -77,8 +77,8 @@ class _DatePickerState extends State<DatePicker> {
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

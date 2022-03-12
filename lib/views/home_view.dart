@@ -30,7 +30,8 @@ class _HomeViewState extends State<HomeView> {
     dataBloc.add(ItemManagerLoad());
 
     return BlocBuilder<ItemManagerBloc, ItemManagerState>(
-      builder:(context, state) => Scaffold(
+      builder:(context, state) =>
+      Scaffold(
         appBar: selectedItems.isEmpty?
           const DefaultAppBar() as PreferredSizeWidget :
           DeleteNoteAppBar(
@@ -47,8 +48,7 @@ class _HomeViewState extends State<HomeView> {
                 selectedItems = List.empty(growable: true);
               });
             },
-          ),
-
+        ),
         body: Builder(
           builder: (context) {
             if (state is ItemManagerLoading) {

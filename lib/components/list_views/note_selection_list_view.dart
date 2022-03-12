@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tasker/models/item.dart';
 import 'package:tasker/models/note.dart';
 import 'package:tasker/models/task.dart';
-import 'package:tasker/components/list_element/task_element.dart';
-import 'package:tasker/components/list_element/note_element.dart';
+import 'package:tasker/components/list_element/item_element.dart';
 
 class NoteSelectionListView extends StatelessWidget {
   final List<Item> items;
@@ -23,15 +22,8 @@ class NoteSelectionListView extends StatelessWidget {
         itemBuilder: (BuildContext context, int index){
           Item item = items.elementAt(index);
           bool selected = selectedIndices.contains(item);
-          if (item is Task) {
-            return TaskElement(
-                item,
-                onLongPress,
-                selectionActive,
-                selected
-              );
-          } else if (item is Note) {
-            return NoteElement(
+          if (item is Task || item is Note) {
+            return ItemElement(
                 item,
                 onLongPress,
                 selectionActive,

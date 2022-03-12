@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:hive/hive.dart';
 
 part 'item.g.dart';
@@ -11,12 +13,15 @@ class Item extends HiveObject{
   @HiveField(1)
   String title;
 
+  @HiveField(2)
+  Color? highlightColor;
+
   @override
   String toString() {
     return "\n"
         "creationDate: $creationDate | title: $title\n";
   }
 
-  Item({this.title = "", DateTime? creationDate}):
+  Item({this.title = "", this.highlightColor, DateTime? creationDate}):
         creationDate = creationDate?? DateTime.now();
 }

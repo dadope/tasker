@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tasker/views/home_view.dart';
-import 'package:tasker/views/edit_note_view.dart';
-import 'package:tasker/views/edit_task_view.dart';
-import 'package:tasker/views/create_note_view.dart';
-import 'package:tasker/views/create_task_view.dart';
+import 'package:tasker/views/edit_item_view.dart';
+import 'package:tasker/views/create_item_view.dart';
 
 class Routes{
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -16,26 +14,17 @@ class Routes{
             builder: (_) => const HomeView()
         );
 
-      case EditNoteView.routeName: // => "/editNoteView"
+
+      case EditItemView.routeName: // => "/editTaskView"
         final args = settings.arguments as List;
         return MaterialPageRoute(
-            builder: (_) => EditNoteView(args.elementAt(0))
+            builder: (_) => EditItemView(args.elementAt(0))
         );
 
-      case CreateNoteView.routeName: // => "/createNoteView"
-        return MaterialPageRoute(
-            builder: (_) => const CreateNoteView()
-        );
-
-      case EditTaskView.routeName: // => "/editTaskView"
+      case CreateItemView.routeName: // => "/createItemView"
         final args = settings.arguments as List;
         return MaterialPageRoute(
-            builder: (_) => EditTaskView(args.elementAt(0))
-        );
-
-      case CreateTaskView.routeName: // => "/createTaskView"
-        return MaterialPageRoute(
-            builder: (_) => const CreateTaskView()
+            builder: (_) => CreateItemView(args.elementAt(0))
         );
 
       default:

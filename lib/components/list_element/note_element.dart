@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tasker/models/note.dart';
-import 'package:tasker/views/edit_note_view.dart';
+import 'package:tasker/views/edit_item_view.dart';
 
 class NoteElement extends StatelessWidget {
   final Note note;
@@ -23,7 +23,8 @@ class NoteElement extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
               width: 2.0,
-              color: selected? Colors.blue : Colors.grey
+              color: selected? Colors.blue :
+                note.highlightColor?? Colors.grey
           ),
           borderRadius: BorderRadius.circular(8.0),
           color: Colors.transparent,
@@ -31,7 +32,7 @@ class NoteElement extends StatelessWidget {
         child: InkWell(
           onTap: (){
             selectionActive?
-              Navigator.pushNamed(context, EditNoteView.routeName, arguments: [note]):
+              Navigator.pushNamed(context, EditItemView.routeName, arguments: [note]):
               onLongPress(note);
           },
           onLongPress: () => onLongPress(note),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:hive/hive.dart';
 import 'package:tasker/models/item.dart';
 
@@ -5,7 +7,7 @@ part 'note.g.dart';
 
 @HiveType(typeId: 1)
 class Note extends Item{
-  @HiveField(2)
+  @HiveField(3)
   String content;
 
   @override
@@ -15,6 +17,6 @@ class Note extends Item{
         "creationDate: $creationDate\n";
   }
 
-  Note({DateTime? creationDate, String title = "", this.content = ""}):
-        super(creationDate: creationDate, title: title);
+  Note({DateTime? creationDate, String title = "", Color? highlightColor, this.content = ""}):
+        super(creationDate: creationDate, title: title, highlightColor: highlightColor);
 }

@@ -23,23 +23,22 @@ class NoteSelectionListView extends StatelessWidget {
         itemBuilder: (BuildContext context, int index){
           Item item = items.elementAt(index);
           bool selected = selectedIndices.contains(item);
-          switch (item.runtimeType){
-            case Task:
-              return TaskElement(
-                item as Task,
+          if (item is Task) {
+            return TaskElement(
+                item,
                 onLongPress,
                 selectionActive,
                 selected
               );
-            case Note:
-              return NoteElement(
-                item as Note,
+          } else if (item is Note) {
+            return NoteElement(
+                item,
                 onLongPress,
                 selectionActive,
                 selected
               );
-            default:
-              return const SizedBox.shrink();
+          } else {
+            return const SizedBox.shrink();
           }
         }
     );

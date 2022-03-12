@@ -3,19 +3,16 @@ import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../utils.dart';
+
 //TODO: Implement https://www.flutterclutter.dev/flutter/tutorials/date-format-dynamic-string-depending-on-how-long-ago/2020/229/
 
-class DatePicker extends StatefulWidget {
-  DateTime dueDate;
+class DatePicker extends StatelessWidget {
+  const DatePicker(this.dueDate, this.highlight, this.saveNote, {Key? key}) : super(key: key);
+
+  final DateTime dueDate;
+  final Color? highlight;
   final Function saveNote;
-
-  DatePicker(this.dueDate, this.saveNote, {Key? key}) : super(key: key);
-
-  @override
-  _DatePickerState createState() => _DatePickerState();
-}
-
-class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
@@ -28,24 +25,23 @@ class _DatePickerState extends State<DatePicker> {
             DateTime.now().year, DateTime.now().month, DateTime.now().day
         ),
         lastDate: DateTime(2100),
-        initialDate: widget.dueDate,
-      )?? widget.dueDate;
+        initialDate: dueDate,
+      )?? dueDate;
 
       final TimeOfDay pickedTime = await showTimePicker(
           context: context,
-          initialTime: TimeOfDay.fromDateTime(widget.dueDate)
-      )?? TimeOfDay.fromDateTime(widget.dueDate);
+          initialTime: TimeOfDay(
+              hour: dueDate.hour,
+              minute: 0
+          )
+      )?? TimeOfDay.fromDateTime(dueDate);
 
       DateTime pickedDateTime = DateTime(
-        pickedDate.year, pickedDate.month, pickedDate.day,
-        pickedTime.hour, pickedTime.minute
+          pickedDate.year, pickedDate.month, pickedDate.day,
+          pickedTime.hour, pickedTime.minute
       );
 
-      widget.saveNote("_", date:pickedDateTime);
-
-      setState(() {
-        widget.dueDate = pickedDateTime;
-      });
+      saveNote(pickedDateTime);
     }
 
     return Row(
@@ -58,19 +54,25 @@ class _DatePickerState extends State<DatePicker> {
             },
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade400,
+                color: highlight?? Colors.grey,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.calendar_today_outlined,
+                    color: useWhiteForeground(highlight)?
+                    Colors.white:Colors.black,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      DateFormat('MMM dd, kk:mm').format(widget.dueDate),
+                      DateFormat('MMM dd, kk:mm').format(dueDate),
+                      style: TextStyle(
+                          color: useWhiteForeground(highlight)?
+                          Colors.white:Colors.black
+                      ),
                     ),
                   ),
                 ],

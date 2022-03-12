@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:tasker/models/task.dart';
-import 'package:tasker/views/edit_task_view.dart';
+import 'package:tasker/views/edit_item_view.dart';
+
+import '../utils.dart';
 
 class TaskElement extends StatelessWidget {
   final Task task;
@@ -25,7 +27,8 @@ class TaskElement extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
               width: 2.0,
-              color: selected? Colors.blue : Colors.grey
+              color: selected? Colors.blue :
+                task.highlightColor?? Colors.grey
           ),
           borderRadius: BorderRadius.circular(8.0),
           color: Colors.transparent,
@@ -33,7 +36,7 @@ class TaskElement extends StatelessWidget {
         child: InkWell(
           onTap: (){
             selectionActive?
-              Navigator.pushNamed(context, EditTaskView.routeName, arguments: [task]):
+              Navigator.pushNamed(context, EditItemView.routeName, arguments: [task]):
               onLongPress(task);
           },
           onLongPress: () => onLongPress(task),
@@ -59,20 +62,26 @@ class TaskElement extends StatelessWidget {
                       ),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade400,
+                        color: task.highlightColor?? Colors.grey.shade400,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
                       child: Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.calendar_today_outlined,
                             size: 20,
+                            color: useWhiteForeground(task.highlightColor)?
+                              Colors.white:Colors.black
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
                               DateFormat('MMM dd, kk:mm').format(task.dueDate),
+                              style: TextStyle(
+                                color: useWhiteForeground(task.highlightColor)?
+                                  Colors.white:Colors.black
+                              ),
                             )
                           )
                         ]

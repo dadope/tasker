@@ -14,14 +14,22 @@ class DeleteNoteAppBar extends StatelessWidget with PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.white,
       leading: IconButton(
-        icon: const Icon(Icons.cancel),
+        icon: const Icon(
+          Icons.cancel,
+          color: Colors.grey,
+        ),
         onPressed: cancelDeletion,
       ),
       title: const DefaultSearchBar(),
       actions: [
         IconButton(
-          icon: const Icon(Icons.delete_forever),
+          icon: const Icon(
+            Icons.delete_forever,
+            color: Colors.grey,
+          ),
           onPressed: deleteItem,
         )
       ],

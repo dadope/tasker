@@ -15,7 +15,13 @@ class DefaultSearchBar extends StatelessWidget {
     return Container(
       height: 40,
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          color: Colors.white,
+          border: Border.all(
+            width: 1,
+            color: Colors.grey
+          ),
+          borderRadius: BorderRadius.circular(10)
+      ),
       child: Center(
         child: TextField(
           onChanged: (String s) => dataBloc.add(ItemManagerSearchItem(searchController.text)),

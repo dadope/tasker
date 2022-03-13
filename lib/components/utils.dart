@@ -10,5 +10,5 @@ bool useWhiteForeground(Color? backgroundColor, {double bias = 0.0}) {
         .round();
     return v < 130 + bias ? true : false;
   }
-  return true;
+  return false;
 }

@@ -10,7 +10,16 @@ class DatabaseManager {
 
   Box hiveBox = Hive.box(boxName);
 
-  List<Item> getAllItems() => hiveBox.values.whereType<Item>().toList();
+  List<Item> getAllItems() {
+    List<Task> tasks = getAllTasks();
+    List<Note> notes = getAllNotes();
+
+    tasks.sort((a,b)=> a.creationDate.compareTo(b.dueDate));
+    notes.sort((a,b)=> b.creationDate.compareTo(a.creationDate));
+
+    return [...tasks, ...notes];
+  }
+
   List<Task> getAllTasks() => hiveBox.values.whereType<Task>().toList();
   List<Note> getAllNotes() => hiveBox.values.whereType<Note>().toList();
 

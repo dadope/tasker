@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:tasker/components/database_manager.dart';
 import 'package:tasker/models/item.dart';
+import 'package:tasker/models/tag.dart';
 
 part 'item_manager_event.dart';
 part 'item_manager_state.dart';
@@ -13,6 +14,7 @@ class ItemManagerBloc extends Bloc<ItemManagerEvent, ItemManagerState> {
   ItemManagerBloc(): databaseManager = DatabaseManager(),
         super(ItemManagerInitial()){
     on<ItemManagerLoad>((event, emit) => _onItemManagerLoad(event, emit));
+    on<ItemManagerLoadTag>((event, emit) => _onItemManagerLoadTag(event, emit));
     on<ItemManagerAddItem>((event, emit) => _onItemManagerAddItem(event, emit));
     on<ItemManagerEditItem>((event, emit) => _onItemManagerEditItem(event, emit));
     on<ItemManagerRemoveItem>((event, emit) => _onItemManagerRemoveItem(event, emit));
@@ -22,6 +24,11 @@ class ItemManagerBloc extends Bloc<ItemManagerEvent, ItemManagerState> {
   void _onItemManagerLoad(ItemManagerLoad event, Emitter<ItemManagerState> emit) {
     emit(ItemManagerLoading());
     emit(ItemManagerLoaded(databaseManager.getAllItems()));
+  }
+
+  void _onItemManagerLoadTag(ItemManagerLoadTag event, Emitter<ItemManagerState> emit) {
+    emit(ItemManagerLoading());
+    emit(ItemManagerLoadedTags(databaseManager.getAllItems(), databaseManager.getAllTags()));
   }
 
   void _onItemManagerAddItem(ItemManagerAddItem event, Emitter<ItemManagerState> emit) async {

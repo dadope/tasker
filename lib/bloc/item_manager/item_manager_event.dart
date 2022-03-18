@@ -9,6 +9,8 @@ abstract class ItemManagerEvent extends Equatable {
 
 class ItemManagerLoad extends ItemManagerEvent {}
 
+class ItemManagerLoadTag extends ItemManagerLoad {}
+
 class ItemManagerAddItem extends ItemManagerEvent {
   final Item itemToAdd;
 

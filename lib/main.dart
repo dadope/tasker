@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasker/models/color.g.dart';
+import 'package:tasker/models/tag.dart';
 
 import 'package:tasker/views/home_view.dart';
 import 'package:tasker/components/routes.dart';
@@ -14,6 +15,7 @@ import 'models/task.dart';
 
 void main() async {
   await Hive.initFlutter();
+  Hive.registerAdapter(TagAdapter());
   Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(NoteAdapter());
   Hive.registerAdapter(ColorAdapter());

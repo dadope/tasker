@@ -19,6 +19,7 @@ class ItemAdapter extends TypeAdapter<Item> {
     return Item(
       title: fields[1] as String,
       highlightColor: fields[2] as Color?,
+      tags: (fields[3] as List?)?.cast<Tag>(),
       creationDate: fields[0] as DateTime?,
     );
   }
@@ -26,13 +27,15 @@ class ItemAdapter extends TypeAdapter<Item> {
   @override
   void write(BinaryWriter writer, Item obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.creationDate)
       ..writeByte(1)
       ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.highlightColor);
+      ..write(obj.highlightColor)
+      ..writeByte(3)
+      ..write(obj.tags);
   }
 
   @override

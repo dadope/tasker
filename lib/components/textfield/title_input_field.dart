@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class TitleInputField extends StatelessWidget {
   final String? title;
-  final Function(String) saveNote;
+  final Function(String) save;
   final TextEditingController titleController;
 
-  const TitleInputField(this.titleController, this.saveNote, {this.title, Key? key}) : super(key: key);
+  const TitleInputField(this.titleController, this.save, {this.title, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class TitleInputField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: TextField(
-        onChanged: saveNote,
+        onChanged: save,
         style: const TextStyle(
           fontSize: 21
         ),

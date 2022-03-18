@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:hive/hive.dart';
+import 'package:tasker/models/tag.dart';
 
 import 'item.dart';
 
@@ -9,13 +10,13 @@ part 'task.g.dart';
 //TODO add support for multi-day tasks
 @HiveType(typeId: 2)
 class Task extends Item{
-  @HiveField(3)
+  @HiveField(4)
   String content;
 
-  @HiveField(4)
+  @HiveField(5)
   bool done;
 
-  @HiveField(5)
+  @HiveField(6)
   DateTime dueDate;
 
   @override

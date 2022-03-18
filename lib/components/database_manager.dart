@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:tasker/models/item.dart';
 
 import 'package:tasker/models/note.dart';
+import 'package:tasker/models/tag.dart';
 import 'package:tasker/models/task.dart';
 
 // TODO enable sorting my creation date
@@ -22,6 +23,7 @@ class DatabaseManager {
 
   List<Task> getAllTasks() => hiveBox.values.whereType<Task>().toList();
   List<Note> getAllNotes() => hiveBox.values.whereType<Note>().toList();
+  List<Tag> getAllTags() => getAllItems().expand((element) => element.tags).toList();
 
   List<Note> searchForNote(String query, {bool matchCase = false}) =>
       getAllNotes().where(

@@ -1,41 +1,33 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'task.dart';
+part of 'tag.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TaskAdapter extends TypeAdapter<Task> {
+class TagAdapter extends TypeAdapter<Tag> {
   @override
-  final int typeId = 2;
+  final int typeId = 4;
 
   @override
-  Task read(BinaryReader reader) {
+  Tag read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Task(
-      title: fields[1] as dynamic,
-      content: fields[4] as String,
-      done: fields[5] as bool,
+    return Tag(
+      fields[1] as String,
       highlightColor: fields[2] as Color?,
       creationDate: fields[0] as DateTime?,
-      dueDate: fields[6] as DateTime?,
-    )..tags = (fields[3] as List).cast<Tag>();
+      icon: fields[3] as Icon?,
+    );
   }
 
   @override
-  void write(BinaryWriter writer, Task obj) {
+  void write(BinaryWriter writer, Tag obj) {
     writer
-      ..writeByte(7)
       ..writeByte(4)
-      ..write(obj.content)
-      ..writeByte(5)
-      ..write(obj.done)
-      ..writeByte(6)
-      ..write(obj.dueDate)
       ..writeByte(0)
       ..write(obj.creationDate)
       ..writeByte(1)
@@ -43,7 +35,7 @@ class TaskAdapter extends TypeAdapter<Task> {
       ..writeByte(2)
       ..write(obj.highlightColor)
       ..writeByte(3)
-      ..write(obj.tags);
+      ..write(obj.icon);
   }
 
   @override
@@ -52,7 +44,7 @@ class TaskAdapter extends TypeAdapter<Task> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TaskAdapter &&
+      other is TagAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

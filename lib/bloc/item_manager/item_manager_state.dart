@@ -39,3 +39,12 @@ class ItemManagerReloaded extends ItemManagerLoaded {
   const ItemManagerReloaded(List<Item> items, [this.taskSuccessful = true])
       : super(items);
 }
+
+class ItemManagerLoadedTags extends ItemManagerLoaded {
+  final List<Tag> tags;
+
+  const ItemManagerLoadedTags(List<Item> items, this.tags) : super(items);
+
+  @override
+  List<Item> get props => items;
+}

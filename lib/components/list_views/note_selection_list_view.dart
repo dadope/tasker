@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tasker/models/item.dart';
 import 'package:tasker/models/note.dart';
 import 'package:tasker/models/task.dart';
-import 'package:tasker/components/list_element/item_element.dart';
+import 'package:tasker/components/elements/item_element.dart';
 
 class NoteSelectionListView extends StatelessWidget {
   final List<Item> items;

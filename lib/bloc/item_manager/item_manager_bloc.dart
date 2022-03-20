@@ -17,8 +17,7 @@ class ItemManagerBloc extends Bloc<ItemManagerEvent, ItemManagerState> {
     on<ItemManagerAddItem>((event, emit) => _onItemManagerAddItem(event, emit));
     on<ItemManagerEditItem>((event, emit) => _onItemManagerEditItem(event, emit));
     on<ItemManagerRemoveItem>((event, emit) => _onItemManagerRemoveItem(event, emit));
-    on<ItemManagerSearchItem>((event, emit) => _onItemManagerSearchItem(event, emit));
-    on<ItemManagerSearchByTag>((event, emit) => _onItemManagerSearchByTag(event, emit));
+    on<ItemManagerSearch>((event, emit) => _onItemManagerSearch(event, emit));
   }
 
   void _onItemManagerLoad(ItemManagerLoad event, Emitter<ItemManagerState> emit) {
@@ -44,13 +43,11 @@ class ItemManagerBloc extends Bloc<ItemManagerEvent, ItemManagerState> {
     emit(ItemManagerReloaded(databaseManager.getAllItems(), databaseManager.getAllTags()));
   }
 
-  void _onItemManagerSearchItem(ItemManagerSearchItem event, Emitter<ItemManagerState> emit) {
+  void _onItemManagerSearch(ItemManagerSearch event, Emitter<ItemManagerState> emit) {
     emit(ItemManagerLoading());
-    emit(ItemManagerSearched(databaseManager.searchAllItems(event.query), databaseManager.getAllTags()));
-  }
-
-  void _onItemManagerSearchByTag(ItemManagerSearchByTag event, Emitter<ItemManagerState> emit) {
-    emit(ItemManagerLoading());
-    emit(ItemManagerSearched(databaseManager.searchByTags(event.queryTags), databaseManager.getAllTags(), queryTags: event.queryTags));
+    emit(ItemManagerSearched(
+        databaseManager.searchItem(query: event.query, tagsToFind: event.queryTags),
+        databaseManager.getAllTags()
+    ));
   }
 }

@@ -25,32 +25,54 @@ class DatabaseManager {
   List<Note> getAllNotes() => hiveBox.values.whereType<Note>().toList();
   List<Tag> getAllTags() => getAllItems().expand((element) => element.tags).toSet().toList();
 
-  List<Note> searchForNote(String query, {bool matchCase = false}) =>
-      getAllNotes().where(
-              (element) => matchCase?
-          element.title.contains(query) || element.content.contains(query):
-          element.title.toLowerCase().contains(query.toLowerCase()) ||
-              element.content.toLowerCase().contains(query.toLowerCase())
-      ).toList();
+  //List<Note> searchForNote(String query, {bool matchCase = false}) =>
+  //    getAllNotes().where(
+  //            (element) => matchCase?
+  //        element.title.contains(query) || element.content.contains(query):
+  //        element.title.toLowerCase().contains(query.toLowerCase()) ||
+  //            element.content.toLowerCase().contains(query.toLowerCase())
+  //    ).toList();
+//
+  //List<Task> searchForTask(String query, {bool matchCase = false}) =>
+  //    getAllTasks().where(
+  //            (element) => matchCase?
+  //        element.title.contains(query) || element.content.contains(query):
+  //        element.title.toLowerCase().contains(query.toLowerCase()) ||
+  //            element.content.toLowerCase().contains(query.toLowerCase())
+  //    ).toList();
+//
+  //List<Item> searchAllItems(String query, {bool matchCase = false}) =>
+  //    [
+  //      ...searchForTask(query, matchCase: matchCase),
+  //      ...searchForNote(query, matchCase: matchCase)
+  //    ];
+//
+  //List<Item> searchByTags(List<Tag> tagsToFind) =>
+  //    getAllItems().where(
+  //            (element) => element.tags.toSet().containsAll(tagsToFind)
+  //    ).toList();
 
-  List<Task> searchForTask(String query, {bool matchCase = false}) =>
-      getAllTasks().where(
-              (element) => matchCase?
-          element.title.contains(query) || element.content.contains(query):
-          element.title.toLowerCase().contains(query.toLowerCase()) ||
-              element.content.toLowerCase().contains(query.toLowerCase())
-      ).toList();
+  List<Item> searchItem({String? query, List<Tag>? tagsToFind, bool matchCase = false}){
+    String _query = query??"";
+    List<Tag> _tags = tagsToFind?? List.empty();
 
-  List<Item> searchAllItems(String query, {bool matchCase = false}) =>
-      [
-        ...searchForTask(query, matchCase: matchCase),
-        ...searchForNote(query, matchCase: matchCase)
-      ];
-
-  List<Item> searchByTags(List<Tag> tagsToFind) =>
-      getAllItems().where(
-              (element) => element.tags.toSet().containsAll(tagsToFind)
-      ).toList();
+    return [
+      ...getAllNotes().where(
+        (element) => matchCase?
+          element.title.contains(_query) || element.content.contains(_query):
+          element.title.toLowerCase().contains(_query.toLowerCase()) ||
+            element.content.toLowerCase().contains(_query.toLowerCase())
+      ),
+      ...getAllTasks().where(
+        (element) => matchCase?
+          element.title.contains(_query) || element.content.contains(_query):
+          element.title.toLowerCase().contains(_query.toLowerCase()) ||
+              element.content.toLowerCase().contains(_query.toLowerCase())
+      )
+    ].where(
+            (element) => element.tags.toSet().containsAll(_tags)
+    ).toList();
+  }
 
 
   Future<void> editItem(Item item) async => await item.save();

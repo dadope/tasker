@@ -32,7 +32,9 @@ class _HomeViewState extends State<HomeView> {
     if (searchedTags.isEmpty) {
       dataBloc.add(ItemManagerLoad());
     } else {
-      dataBloc.add(ItemManagerSearchByTag(searchedTags));
+      dataBloc.add(
+          ItemManagerSearch(queryTags: searchedTags, query: searchController.text)
+      );
     }
 
     return BlocBuilder<ItemManagerBloc, ItemManagerState>(

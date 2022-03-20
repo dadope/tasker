@@ -38,7 +38,9 @@ class DefaultSearchBar extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
-              onChanged: (String s) => dataBloc.add(ItemManagerSearchItem(searchController.text)),
+              onChanged: (String s) => dataBloc.add(
+                  ItemManagerSearch(query: searchController.text, queryTags: searchedTags)
+              ),
               controller: searchController,
               decoration: const InputDecoration(
                   hintText: 'Search...',

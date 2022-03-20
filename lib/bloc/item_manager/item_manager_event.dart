@@ -4,7 +4,7 @@ abstract class ItemManagerEvent extends Equatable {
   const ItemManagerEvent();
 
   @override
-  List<Object> get props => [];
+  List get props => [];
 }
 
 class ItemManagerLoad extends ItemManagerEvent {}
@@ -36,20 +36,12 @@ class ItemManagerRemoveItem extends ItemManagerEvent {
   List<Item> get props => [itemToRemove];
 }
 
-class ItemManagerSearchItem extends ItemManagerEvent{
-  final String query;
+class ItemManagerSearch extends ItemManagerEvent{
+  final String? query;
+  final List<Tag>? queryTags;
 
-  const ItemManagerSearchItem(this.query);
-
-  @override
-  List<String> get props => [query];
-}
-
-class ItemManagerSearchByTag extends ItemManagerEvent{
-  final List<Tag> queryTags;
-
-  const ItemManagerSearchByTag(this.queryTags);
+  const ItemManagerSearch({this.query, this.queryTags});
 
   @override
-  List<Tag> get props => queryTags;
+  List<Object?> get props => [query, queryTags];
 }

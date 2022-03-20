@@ -31,9 +31,7 @@ class ItemManagerLoaded extends ItemManagerState {
 }
 
 class ItemManagerSearched extends ItemManagerLoaded{
-  final List<Tag>? queryTags;
-
-  const ItemManagerSearched(List<Item> items, List<Tag> tags, {this.queryTags}) : super(items, tags);
+  const ItemManagerSearched(List<Item> items, List<Tag> tags) : super(items, tags);
 }
 
 class ItemManagerReloaded extends ItemManagerLoaded {

@@ -9,8 +9,6 @@ abstract class ItemManagerEvent extends Equatable {
 
 class ItemManagerLoad extends ItemManagerEvent {}
 
-class ItemManagerLoadTag extends ItemManagerLoad {}
-
 class ItemManagerAddItem extends ItemManagerEvent {
   final Item itemToAdd;
 
@@ -45,4 +43,13 @@ class ItemManagerSearchItem extends ItemManagerEvent{
 
   @override
   List<String> get props => [query];
+}
+
+class ItemManagerSearchByTag extends ItemManagerEvent{
+  final List<Tag> queryTags;
+
+  const ItemManagerSearchByTag(this.queryTags);
+
+  @override
+  List<Tag> get props => queryTags;
 }

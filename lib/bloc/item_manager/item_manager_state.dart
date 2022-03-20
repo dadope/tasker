@@ -22,29 +22,21 @@ class ItemManagerErrorState extends ItemManagerState {
 
 class ItemManagerLoaded extends ItemManagerState {
   final List<Item> items;
+  final List<Tag> tags;
 
-  const ItemManagerLoaded(this.items);
+  const ItemManagerLoaded(this.items, this.tags);
 
   @override
   List<Item> get props => items;
 }
 
 class ItemManagerSearched extends ItemManagerLoaded{
-  const ItemManagerSearched(List<Item> items) : super(items);
+  final List<Tag>? queryTags;
+
+  const ItemManagerSearched(List<Item> items, List<Tag> tags, {this.queryTags}) : super(items, tags);
 }
 
 class ItemManagerReloaded extends ItemManagerLoaded {
-  final bool taskSuccessful;
-
-  const ItemManagerReloaded(List<Item> items, [this.taskSuccessful = true])
-      : super(items);
-}
-
-class ItemManagerLoadedTags extends ItemManagerLoaded {
-  final List<Tag> tags;
-
-  const ItemManagerLoadedTags(List<Item> items, this.tags) : super(items);
-
-  @override
-  List<Item> get props => items;
+  const ItemManagerReloaded(List<Item> items, List<Tag> tags)
+      : super(items, tags);
 }

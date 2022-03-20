@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 
@@ -7,7 +8,7 @@ part 'tag.g.dart';
 
 // empty class
 @HiveType(typeId: 4)
-class Tag extends HiveObject{
+class Tag extends HiveObject with EquatableMixin{
   @HiveField(0)
   DateTime creationDate;
 
@@ -28,4 +29,7 @@ class Tag extends HiveObject{
 
   Tag(this.title, {this.highlightColor, DateTime? creationDate, this.icon}):
         creationDate = creationDate?? DateTime.now();
+
+  @override
+  List<String> get props => [title];
 }

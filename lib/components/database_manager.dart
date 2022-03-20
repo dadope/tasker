@@ -23,7 +23,7 @@ class DatabaseManager {
 
   List<Task> getAllTasks() => hiveBox.values.whereType<Task>().toList();
   List<Note> getAllNotes() => hiveBox.values.whereType<Note>().toList();
-  List<Tag> getAllTags() => getAllItems().expand((element) => element.tags).toList();
+  List<Tag> getAllTags() => getAllItems().expand((element) => element.tags).toSet().toList();
 
   List<Note> searchForNote(String query, {bool matchCase = false}) =>
       getAllNotes().where(
@@ -46,6 +46,12 @@ class DatabaseManager {
         ...searchForTask(query, matchCase: matchCase),
         ...searchForNote(query, matchCase: matchCase)
       ];
+
+  List<Item> searchByTags(List<Tag> tagsToFind) =>
+      getAllItems().where(
+              (element) => element.tags.toSet().containsAll(tagsToFind)
+      ).toList();
+
 
   Future<void> editItem(Item item) async => await item.save();
 

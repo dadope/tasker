@@ -4,10 +4,11 @@ import '../utils.dart';
 import 'package:tasker/models/tag.dart';
 
 class TagElement extends StatelessWidget {
-  const TagElement(this.tag, this.highlight, {this.saveItem, Key? key}) : super(key: key);
+  const TagElement(this.tag, this.highlight, {this.saveItem, this.searchTag, Key? key}) : super(key: key);
 
   final Tag? tag;
   final Color? highlight;
+  final Function(Tag)? searchTag;
   final Function(Tag)? saveItem;
 
   @override
@@ -23,7 +24,11 @@ class TagElement extends StatelessWidget {
               borderRadius: BorderRadius.circular(18)),
             primary: highlight?? Colors.grey.shade500,
           ),
-          onPressed: () {  },
+          onPressed: () {
+            if (searchTag != null){
+              searchTag!(tag!);
+            }
+          },
           child: Center(
             child: Text(
               tag!.title,

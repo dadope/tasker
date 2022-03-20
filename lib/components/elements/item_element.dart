@@ -8,6 +8,7 @@ import 'package:tasker/components/list_views/tag_list_view.dart';
 import 'package:tasker/components/selectors/done_selector.dart';
 import 'package:tasker/models/item.dart';
 import 'package:tasker/models/note.dart';
+import 'package:tasker/models/tag.dart';
 
 import 'package:tasker/models/task.dart';
 import 'package:tasker/views/edit_item_view.dart';
@@ -18,8 +19,9 @@ class ItemElement extends StatefulWidget {
   final bool selected;
   final bool selectionActive;
   final Function(Item selectedItem) onLongPress;
+  final Function(Tag)? searchTag;
 
-  const ItemElement(this.item, this.onLongPress, this.selectionActive, this.selected, {Key? key}) : super(key: key);
+  const ItemElement(this.item, this.onLongPress, this.selectionActive, this.selected, {this.searchTag, Key? key}) : super(key: key);
 
   @override
   State<ItemElement> createState() => _ItemElementState();
@@ -116,7 +118,11 @@ class _ItemElementState extends State<ItemElement> {
                                     height: 28,
                                     child: Transform(
                                       transform: Matrix4.identity()..scale(0.9),
-                                      child: TagListView(item.tags, highlight: item.highlightColor)
+                                      child: TagListView(
+                                        item.tags,
+                                        highlight: item.highlightColor,
+                                        searchTag: widget.searchTag,
+                                      )
                                     )
                                   ),
                                 ),

@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 
 import 'package:tasker/models/item.dart';
 import 'package:tasker/models/note.dart';
+import 'package:tasker/models/tag.dart';
 import 'package:tasker/models/task.dart';
 import 'package:tasker/components/elements/item_element.dart';
 
 class NoteSelectionListView extends StatelessWidget {
   final List<Item> items;
   final List<Item> selectedIndices;
-  final Function(Item selectedItem) onLongPress;
+  final Function(Tag)? searchTag;
+  final Function(Item) onLongPress;
 
-  const NoteSelectionListView(this.items, this.selectedIndices, {required this.onLongPress, Key? key}) : super(key: key);
+  const NoteSelectionListView(this.items, this.selectedIndices, {required this.onLongPress, this.searchTag, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,8 @@ class NoteSelectionListView extends StatelessWidget {
                 item,
                 onLongPress,
                 selectionActive,
-                selected
+                selected,
+                searchTag: searchTag,
               );
           } else {
             return const SizedBox.shrink();

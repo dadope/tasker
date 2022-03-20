@@ -65,21 +65,19 @@ class _CreateItemViewState extends State<CreateItemView> {
       } else if (item is Task){
         item.title = titleController.text;
         item.content = contentController.text;
-        if (item.title == "" && item.content == ""){
-          dataBloc.add(ItemManagerRemoveItem(item));
-          saved = false;
-          return;
-        }
       } else if (item is Note){
         item.title = titleController.text;
         item.content = contentController.text;
-        if (item.title == "" && item.content == ""){
-          dataBloc.add(ItemManagerRemoveItem(item));
-          saved = false;
-          return;
-        }
       } else {
         item.title = titleController.text;
+      }
+
+      if (item.title == "" && ((item is Task && item.content == "") || (item is Note && item.content == ""))){
+        if (saved) {
+          dataBloc.add(ItemManagerRemoveItem(item));
+          saved = false;
+        }
+        return;
       }
 
       if (!saved){
